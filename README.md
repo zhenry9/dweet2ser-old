@@ -1,7 +1,7 @@
 # dweet2ser
 A serial <-> dweet.io interface
 
-dweet2ser allows for the two-way exchange of serial data between a device and a PC, using the free dweet.io API as an intermediary. This is particularly useful for connecting to faraway devices, not on the same LAN.
+dweet2ser allows for the two-way exchange of data between a serial device and a PC over the internet, using the free dweet.io API as an intermediary. This is particularly useful for connecting to faraway devices, not on the same LAN.
 
 ## Installation
 Download dweet2ser.py and config.txt to the same directory. Update config.txt to your needs. The script requires the dweepy, requests, pyserial, colorama and termcolor python packages as dependencies. I'll try to make an installable python package eventually.
