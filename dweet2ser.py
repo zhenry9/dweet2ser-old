@@ -22,13 +22,10 @@ def keepalive(id, thingKey):
         time.sleep(45)
         dweepy.dweet_for(thing_name=id, key=thingKey, payload={"keepalive": 1})
     
-
 def listen_to_dweet(id, thingKey, ser, target, sesh):
     """listens for dweets for the given ID and writes to the given serial port.
        CP 545 data is expected as b'TN_0000_0000_01_12:34:56.7890_01234\x09\xDE\xCA\x0D\x0A'
-    """
-    
-    
+    """ 
     for dweet in dweepy.listen_for_dweets_from( id, key=thingKey, timeout=90000, session=sesh ):     
         content = dweet["content"]
         
@@ -48,7 +45,6 @@ def listen_to_serial(id, thingKey, ser, target, sesh):
     """listens to serial port, if it hears something it dweets it
     """
     while True:
-        
         if ser.in_waiting > 0:
             serData = ser.readline()
             dweepy.dweet_for(id, {target: serData.hex()}, key=thingKey, session = sesh)
@@ -56,8 +52,7 @@ def listen_to_serial(id, thingKey, ser, target, sesh):
             print(timestamp + ":\treceived " + colored("serial data", "red"))
             print("\t\t\t\t " + serData.strip().decode('latin-1'))
             print("\t\t\t\tsent to  " + colored("dweet.io\n", "cyan"))
-            
-    
+              
             
 def main():
     
@@ -67,6 +62,12 @@ def main():
     # open our config file
     cfg = ConfigParser()
     cfg.read("config.txt")
+    
+    # get thing ID from config file 
+    thingId = cfg.get("thing", "id")
+    thingKey = cfg.get("thing", "key")
+    if thingKey == 'None' or thingKey == '':
+        thingKey = None
     
     # get some defaults out of the config file
     defaultPcBuffer = cfg.get("defaults", "pc_buffer")
@@ -92,17 +93,10 @@ def main():
   
     if args.port is not None:
         port = args.port
-        
-    # get thing ID from config file 
-    thingId = cfg.get("thing", "id")
-    thingKey = cfg.get("thing", "key")
-    if thingKey == 'None' or thingKey == '':
-        thingKey = None
+       
     serialPort = serial.Serial(port)
     # start a session to share for all dweepy requests
     sesh = requests.Session()
-    
-    print(colored("\n\t" + sys.argv[0] + " running on port: " + port + " in " + args.mode + " mode.\n", "red"))
     
     # start the keepalive function
     p = pool.Pool()
@@ -113,6 +107,8 @@ def main():
     t1.daemon = True
     t2.daemon = True
   
+    print(colored("\n\t\t" + sys.argv[0] + " running on port: " + port + " in " + args.mode + " mode.\n", "red"))
+    
     print("\t\t*************************************************")
     print("\t\t**               " + colored("Dweet", "cyan")+ " to " + colored("Serial", "red") + "               **") 
     print("\t\t**                by Zach Henry                **") 
