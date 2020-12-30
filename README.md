@@ -18,7 +18,7 @@ This opens an instance of dweet2ser in DTE mode on windows port COM50. If you do
 This opens an instance of dweet2ser in DCE mode on the linux port /dev/tty0. If you don't specify a port, the default from config.txt will be used. DCE mode means we are on the device side, sending data to the PC (DTE) side.
 
 ### Virtual COM ports
-On the PC (DTE) side you'll need to set up a virtual null modem. This is just a pair of com ports connected to each other. dweet2ser connects to one port, and your software application connects to the other. 
+On the PC (DTE) side you'll need to set up a virtual null modem to allow dweet2ser to communicate with the target software. This is just a pair of com ports connected to each other. dweet2ser connects to one port, and your software application connects to the other. 
 
 On Windows this can be accomplished with [com0com](http://com0com.sourceforge.net/).
 
