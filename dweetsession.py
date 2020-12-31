@@ -59,8 +59,7 @@ class DweetSession(object):
             print(e)
             print("Trying again...")
             time.sleep(2)
-            self.send_dweet(content)
-            pass
+            dweepy.dweet_for(self.thingId, content, key = self.key, session = self.session)
     
     def listen_for_dweets(self):
         try:
