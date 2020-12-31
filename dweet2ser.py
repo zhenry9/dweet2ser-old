@@ -4,9 +4,11 @@ import sys
 import argparse
 import time    
 import datetime
-from multiprocessing import pool
+from multiprocessing import pool, freeze_support
 from configparser import ConfigParser
 import threading
+
+freeze_support()
 
 # 3rd party imports
 import dweepy
