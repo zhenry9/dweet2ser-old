@@ -8,7 +8,7 @@ dweet2ser allows for the two-way exchange of data between a serial device and a 
 dweet2ser works for connecting remotely to things like weather stations, sensors, or other devices that send simple data intermittently. It is not going to work for things like modems, due to the limitations of dweet.io among other things.
 
 ## Installation
-Download dweet2ser.py and config.txt to the same directory. Update config.txt to your needs. The script requires the dweepy, requests, pyserial, colorama and termcolor python packages as dependencies. I'll try to make an installable python package eventually.
+Download dweet2ser.py, dweetsession.py and config.txt to the same directory. Update config.txt to your needs. The script requires the dweepy, requests, pyserial, colorama and termcolor python packages as dependencies. I'll try to make an installable python package eventually.
 
 In windows, you can alternately download the bin/dweet2ser.exe binary. You will still need config.txt in the same directory, with the settings you want.
 
