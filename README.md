@@ -1,6 +1,8 @@
 # dweet2ser
 A serial <-> dweet.io interface
 
+<img src="dweet2ser-signal-flow.png" height="250" align="middle">
+
 dweet2ser allows for the two-way exchange of data between a serial device and a PC over the internet, using the free dweet.io API as an intermediary. This is particularly useful for connecting to faraway devices that aren't on the same LAN.
 
 dweet2ser is useful for connecting remotely to things like weather stations, sensors, or other devices that send simple data intermittently. It is not going to work for things like modems, due to the limitations of dweet.io among other things.
@@ -27,3 +29,7 @@ On the PC (DTE) side you'll need to set up a virtual null modem to allow dweet2s
 On Windows this can be accomplished with [com0com](http://com0com.sourceforge.net/).
 
 In the above example, we could use com0com to create a virtual null modem with ports COM50 and COM51. dweet2ser would connect to COM50, and the PC software to COM51.
+
+## Licensing and Copyright
+MIT License
+Copyright (c) Zach Henry.
