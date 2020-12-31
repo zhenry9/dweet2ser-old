@@ -16,13 +16,9 @@ import serial
 import requests
 from colorama import init
 from termcolor import colored
- 
-def keepalive(id, thingKey):
-    """ dweet.io seems to close the connection after 60 seconds of inactivity. This sends a dummy payload every 45s to avoid that. 
-    """
-    while True:
-        time.sleep(45)
-        dweepy.dweet_for(thing_name=id, key=thingKey, payload={"keepalive": 1})
+
+# local imports
+import keepalive # try to avoid Pool bug by storing target function in other file
     
 def listen_to_dweet(id, thingKey, ser, target, sesh):
     """listens for dweets for the given ID and writes to the given serial port.
@@ -102,7 +98,7 @@ def main():
     
     # start the keepalive function
     p = pool.Pool()
-    p.apply_async(keepalive, args=[thingId, thingKey])
+    p.apply_async(keepalive.keepalive, args=[thingId, thingKey])
     
     t1=threading.Thread(target = listen_to_serial, args=[thingId, thingKey, serialPort, buffer1, sesh])
     t2=threading.Thread(target = listen_to_dweet, args=[thingId, thingKey, serialPort, buffer2, sesh])
