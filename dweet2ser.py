@@ -35,8 +35,7 @@ def listen_to_dweet(dweetSesh):
             outputText = outputBytes.strip().decode('latin-1')
             print(timestamp + ":\treceived " + colored("dweet", "cyan")) 
             print("\t\t\t\t" + outputText) 
-            print("\t\t\t\twritten to " + colored("serial\n", "red"))
-                
+            print("\t\t\t\twritten to " + colored("serial\n", "red"))             
     
 def listen_to_serial(dweetSesh):
     """listens to serial port, if it hears something it dweets it
@@ -51,9 +50,7 @@ def listen_to_serial(dweetSesh):
             print("\t\t\t\t " + serData.strip().decode('latin-1'))
             print("\t\t\t\tsent to  " + colored("dweet.io\n", "cyan"))
             dweetSesh.send_dweet({target: serData.hex()})
-                
-            
-              
+                           
             
 def main():
     
