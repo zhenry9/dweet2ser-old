@@ -1,2 +1,2 @@
 
-py dweet2ser.py DCE
+dweet2ser.py DCE
