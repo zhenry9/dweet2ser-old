@@ -1,7 +1,7 @@
 # dweet2ser
 A serial <-> dweet.io interface
 
-<img src="https://https://github.com/zhenry9/dweet2ser/blob/main/dweet2ser-signal-flow.png" height="300" align="middle">
+<img src="https://github.com/zhenry9/dweet2ser/blob/main/dweet2ser-signal-flow.png" height="300" align="middle">
 
 dweet2ser allows for the two-way exchange of data between a serial device and a PC over the internet, using the free dweet.io API as an intermediary. This is particularly useful for connecting to faraway devices that aren't on the same LAN.
 
