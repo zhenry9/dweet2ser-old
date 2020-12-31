@@ -10,7 +10,15 @@ dweet2ser works for connecting remotely to things like weather stations, sensors
 ## Installation
 Download dweet2ser.py and config.txt to the same directory. Update config.txt to your needs. The script requires the dweepy, requests, pyserial, colorama and termcolor python packages as dependencies. I'll try to make an installable python package eventually.
 
+In windows, you can alternately download the bin/dweet2ser.exe binary. You will still need config.txt in the same directory, with the settings you want.
+
 ## Usage
+### Display help page
+
+  `python dweet2ser.py -h`
+  
+This prints out the help page for command line options.
+
 ### On the device side of the connection:
   
   `python dweet2ser.py DCE -p /dev/tty0`
