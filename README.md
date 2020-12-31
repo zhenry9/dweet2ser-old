@@ -13,6 +13,8 @@ Download dweet2ser.py and config.txt to the same directory. Update config.txt to
 In windows, you can alternately download the bin/dweet2ser.exe binary. You will still need config.txt in the same directory, with the settings you want.
 
 ## Usage
+The below assumes a Python environment. If you are using the windows executable, replace `python dweet2ser.py` with `dweet2ser`.
+
 ### Display help page
 
   `python dweet2ser.py -h`
