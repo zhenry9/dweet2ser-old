@@ -59,9 +59,11 @@ class DweetSession(object):
             print(e)
             print("Trying again...")
             time.sleep(2)
-            dweepy.dweet_for(self.thingId, content, key = self.key, session = self.session)
+            return self.send_dweet(content)
     
     def listen_for_dweets(self):
+        ''' makes a call to dweepy to start a listening stream. error handling needs work
+        '''
         try:
             for dweet in dweepy.listen_for_dweets_from( self.thingId, key=self.key, timeout=90000, session=self.session ):
                 yield dweet
@@ -70,7 +72,8 @@ class DweetSession(object):
         except requests.exceptions.ConnectionError as e:
             print(e.response)
             print("Connection closed by dweet, restarting:")
-            self.listen_for_dweets()
+            self.restart_session()
+            return self.listen_for_dweets()
         
     def keepalive(self):
         """ dweet.io seems to close the connection after 60 seconds of inactivity. This sends a dummy payload every 45s to avoid that. 
