@@ -1,19 +1,11 @@
 
 # standard imports
 import sys
-import argparse
-import time    
+import argparse   
 import datetime
-from multiprocessing import pool, freeze_support
-from configparser import ConfigParser
 import threading
 
-freeze_support()
-
 # 3rd party imports
-import dweepy
-import serial
-import requests
 from colorama import init
 from termcolor import colored
 # colorama call
@@ -72,26 +64,27 @@ def main():
     
     args = parser.parse_args()
     
-    dweetSesh = dweetsession.DweetSession.from_config_file(CONFIG FILE, args.port, args.mode)
+    dweetSesh = dweetsession.DweetSession.from_config_file(CONFIG_FILE, args.port, args.mode)
     
     # start the keepalive function
-    p = pool.Pool()
-    p.apply_async(dweetSesh.keepalive)
     
+    t0=threading.Thread(target = dweetSesh.keepalive)
     t1=threading.Thread(target = listen_to_serial, args=[dweetSesh])
     t2=threading.Thread(target = listen_to_dweet, args=[dweetSesh])
+    
+    t0.daemon = True
     t1.daemon = True
     t2.daemon = True
     
   
-    print(colored("\n\t\t" + sys.argv[0] + " running on port: " + port + " in " + args.mode + " mode.\n", "red"))
+    print(colored("\n\t\t" + sys.argv[0] + " running on port: " + dweetSesh.port + " in " + dweetSesh.mode + " mode.\n", "red"))
     
     print("\t\t*************************************************")
     print("\t\t**               " + colored("Dweet", "cyan")+ " to " + colored("Serial", "red") + "               **") 
     print("\t\t**                by Zach Henry                **") 
     print("\t\t*************************************************") 
   
-    
+    t0.start() # start the keepalive thread
     t1.start() # start listen to serial thread
     t2.start() # start listen to dweet thread
         

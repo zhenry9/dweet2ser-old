@@ -1,8 +1,13 @@
 
+import time
+import dweepy
+import serial
+import requests
+from configparser import ConfigParser
 
-class DweetSession:
+class DweetSession(object):
 
-    def _init_(self, thingId, key = None, pcBuffer, deviceBuffer, port, mode):
+    def __init__(self, thingId, key, pcBuffer, deviceBuffer, port, mode):
         self.thingId = thingId
         self.key = key
         self.port = port
@@ -13,7 +18,7 @@ class DweetSession:
             self.thisBuffer = pcBuffer
             self.thatBuffer = deviceBuffer
         
-        elif args.mode == 'DCE':        # in DCE (device) mode look for dweets in the PC buffer, write dweets to the device buffer
+        elif mode == 'DCE':        # in DCE (device) mode look for dweets in the PC buffer, write dweets to the device buffer
             self.thisBuffer = deviceBuffer
             self.thatBuffer = pcBuffer
         
@@ -34,48 +39,46 @@ class DweetSession:
         defaultDevBuffer = cfg.get("defaults", "device_buffer")
         
         if port is None:
-            if mode = 'DTE':
+            if mode == 'DTE':
                 port = cfg.get("defaults", "DTE_port")
-            if mode = 'DCE':
+            if mode == 'DCE':
                 port = cfg.get("defaults", "DCE_port")
         
-        return cls(thingId, thinkKey, defaultPcBuffer, defaultDevBuffer, port, mode)
+        return cls(thingId, thingKey, defaultPcBuffer, defaultDevBuffer, port, mode)
         
-    def restart_session():
+    def restart_session(self):
         ''' starts a new requests session
         '''
-        session = requests.Session()
+        self.session = requests.Session()
         
-    def send_dweet(content):
+    def send_dweet(self, content):
         try:
-            dweepy.dweet_for(thingId, content, key = key, session = session)
+            dweepy.dweet_for(self.thingId, content, key = self.key, session = self.session)
         
         except dweepy.DweepyError as e:
             print(e)
             print("Trying again...")
             time.sleep(2)
             self.send_dweet(content)
-            continue
+            pass
     
-    def listen_for_dweets()
+    def listen_for_dweets(self):
         try:
-            for dweet in dweepy.listen_for_dweets_from( thingId, key=key, timeout=90000, session=session ):
+            for dweet in dweepy.listen_for_dweets_from( self.thingId, key=self.key, timeout=90000, session=self.session ):
                 yield dweet
                 
         # if you get an error because dweet closed the connection, open it again.
         except requests.exceptions.ConnectionError as e:
             print(e.response)
             print("Connection closed by dweet, restarting:")
-            self.restart_session()
-            continue
-        '
+            self.listen_for_dweets()
         
-    def keepalive():
-    """ dweet.io seems to close the connection after 60 seconds of inactivity. This sends a dummy payload every 45s to avoid that. 
-    """
+    def keepalive(self):
+        """ dweet.io seems to close the connection after 60 seconds of inactivity. This sends a dummy payload every 45s to avoid that. 
+        """
         while True:
             time.sleep(45)
-            dweepy.dweet_for(thing_name=thingId, key=key, payload={"keepalive": 1})
+            self.send_dweet({"keepalive": 1})
                 
         
         
