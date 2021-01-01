@@ -8,15 +8,18 @@ dweet2ser allows for the two-way exchange of data between a serial device and a 
 dweet2ser works for connecting remotely to things like weather stations, sensors, or other devices that send simple data intermittently. It is not going to work for things like modems, due to the limitations of dweet.io among other things.
 
 ## Installation
-### Python Environment
+### Python environment
 This package is not yet published on PyPI, but you can use pip to install it in a Python environment.
   
 `pip install -e git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
   
-### Windows Executable
+### Windows executable
 If you don't have a Python environment on your computer, you can download bin/dweet2ser.exe and dweet2ser/config.txt to the same directory.
 
-### Configuration
+### Get the source
+The source code is always available at [](https://github.com/zhenry9/dweet2ser)
+
+## Configuration
 Modify config.txt to suit your needs. Locked dweet.io things are supported.
 
 ## Usage
