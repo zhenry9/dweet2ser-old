@@ -14,7 +14,7 @@ This package is not yet published on PyPI, but you can use pip to install it in 
 `pip install git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
   
 ### Windows executable
-If you don't have a Python environment on your computer, you can download bin/dweet2ser.exe and dweet2ser/config.txt to the same directory.
+If you don't have a Python environment on your computer, you can download the files in the `windows` folder.
 
 ### Get the source
 The source code is always available at [https://github.com/zhenry9/dweet2ser](https://github.com/zhenry9/dweet2ser).
