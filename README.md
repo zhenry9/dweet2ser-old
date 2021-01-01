@@ -8,28 +8,34 @@ dweet2ser allows for the two-way exchange of data between a serial device and a 
 dweet2ser works for connecting remotely to things like weather stations, sensors, or other devices that send simple data intermittently. It is not going to work for things like modems, due to the limitations of dweet.io among other things.
 
 ## Installation
-Download dweet2ser.py, dweetsession.py and config.txt to the same directory. Update config.txt to your needs. The script requires the dweepy, requests, pyserial, colorama and termcolor python packages as dependencies. I'll try to make an installable python package eventually.
+### Python Environment
+This package is not yet published on PyPI, but you can use pip to install it in a Python environment.
+  
+`pip install -e git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
+  
+### Windows Executable
+If you don't have a Python environment on your computer, you can download bin/dweet2ser.exe and dweet2ser/config.txt to the same directory.
 
-In windows, you can alternately download the bin/dweet2ser.exe binary. You will still need config.txt in the same directory, with the settings you want.
+### Configuration
+Modify config.txt to suit your needs. Locked dweet.io things are supported.
 
 ## Usage
-The below assumes a Python environment. If you are using the windows executable, replace `python dweet2ser.py` with `dweet2ser`.
 
 ### Display help page
 
-  `python dweet2ser.py -h`
+`dweet2ser -h`
   
 This prints out the help page for command line options.
 
 ### On the device side of the connection:
   
-  `python dweet2ser.py DCE -p /dev/tty0`
+`dweet2ser DCE -p /dev/tty0`
  
 This opens an instance of dweet2ser in DCE mode on the linux port /dev/tty0. If you don't specify a port, the default from config.txt will be used. DCE mode means we are on the device side, sending data to the PC (DTE) side.
 
 ### On the PC side of the connection:
   
-  `python dweet2ser.py DTE -p COM50`
+`dweet2ser DTE -p COM50`
 
 This opens an instance of dweet2ser in DTE mode on windows port COM50. If you don't specify a port, the default from config.txt will be used. DTE mode means we are on the PC side, listening to data from the device (DCE) side.
 
