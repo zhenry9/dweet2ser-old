@@ -3,7 +3,7 @@ A serial <-> dweet.io interface
 
 <img src="https://github.com/zhenry9/dweet2ser/blob/main/dweet2ser-signal-flow.png" height="300" align="middle">
 
-dweet2ser allows for the two-way exchange of data between a serial device and a PC over the internet, using the free dweet.io API as an intermediary. This is particularly useful for connecting to faraway devices that aren't on the same LAN.
+dweet2ser allows for the two-way exchange of data between a serial device and a PC over the internet, using the free [dweet.io](dweet.io) API as an intermediary. This is particularly useful for connecting to faraway devices that aren't on the same LAN.
 
 dweet2ser works for connecting remotely to things like weather stations, sensors, or other devices that send simple data intermittently. It is not going to work for things like modems, due to the limitations of dweet.io among other things.
 
