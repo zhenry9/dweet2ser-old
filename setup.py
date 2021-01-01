@@ -30,7 +30,7 @@ setuptools.setup(
 		'pySerial',
 		'colorama',
 		'termcolor',
-        'dweepy @ http://github.com/zhenry9/dweepy.git#egg=dweepy',
+        'dweepy @ http://github.com/zhenry9/dweepy/tarball/main#egg=dweepy',
 	],
     # dependency_links=['http://github.com/zhenry9/dweepy/tarball/master#egg=package-1.0'],
     python_requires='>=3.6',
