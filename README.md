@@ -11,13 +11,13 @@ dweet2ser works for connecting remotely to things like weather stations, sensors
 ### Python environment
 This package is not yet published on PyPI, but you can use pip to install it in a Python environment.
   
-`pip install -e git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
+`pip install git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
   
 ### Windows executable
 If you don't have a Python environment on your computer, you can download bin/dweet2ser.exe and dweet2ser/config.txt to the same directory.
 
 ### Get the source
-The source code is always available at [](https://github.com/zhenry9/dweet2ser)
+The source code is always available at [https://github.com/zhenry9/dweet2ser](https://github.com/zhenry9/dweet2ser)
 
 ## Configuration
 Modify config.txt to suit your needs. Locked dweet.io things are supported.
