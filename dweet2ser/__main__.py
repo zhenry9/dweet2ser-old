@@ -1,15 +1,22 @@
 
 # standard imports
+import os
 import sys
 import argparse   
 import datetime
 import threading
 
+# 3rd party imports
+from colorama import init
+from termcolor import colored
+# colorama call
+init()
+
 # local imports
 import dweetsession
 import connections
 
-CONFIG_FILE = "./config.txt"
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.txt')
             
 def main():
     
@@ -21,11 +28,9 @@ def main():
     args = parser.parse_args()  
     dweetSesh = dweetsession.DweetSession.from_config_file(CONFIG_FILE, args.port, args.mode)
     
-    # start the keepalive function
-    
-    t0=threading.Thread(target = dweetSesh.keepalive)
-    t1=threading.Thread(target = connections.listen_to_serial, args=[dweetSesh])
-    t2=threading.Thread(target = connections.listen_to_dweet, args=[dweetSesh])
+    t0=threading.Thread(target = dweetSesh.keepalive) # thread to send a dummy dweet every 45 seconds to keep the connection alive
+    t1=threading.Thread(target = connections.listen_to_serial, args=[dweetSesh]) # thread to monitor the serial port for data
+    t2=threading.Thread(target = connections.listen_to_dweet, args=[dweetSesh]) # thread to listen for incoming dweets
     
     t0.daemon = True
     t1.daemon = True
