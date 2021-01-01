@@ -3,7 +3,6 @@
 import os
 import sys
 import argparse   
-import datetime
 import threading
 
 # 3rd party imports
@@ -13,8 +12,8 @@ from termcolor import colored
 init()
 
 # local imports
-import dweetsession
-import connections
+from dweet2ser import dweetsession
+from dweet2ser import connections
 
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.txt')
             

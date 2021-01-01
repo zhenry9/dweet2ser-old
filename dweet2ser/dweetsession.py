@@ -1,9 +1,12 @@
 
+# standard imports
 import time
+from configparser import ConfigParser
+
+# 3rd party imports
 import dweepy
 import serial
 import requests
-from configparser import ConfigParser
 
 class DweetSession(object):
 
