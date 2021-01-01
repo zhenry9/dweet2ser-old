@@ -1,26 +1,29 @@
 
+# standard imports
 import time
+from configparser import ConfigParser
+
+# 3rd party imports
 import dweepy
 import serial
 import requests
-from configparser import ConfigParser
 
 class DweetSession(object):
 
-    def __init__(self, thingId, key, pcBuffer, deviceBuffer, port, mode):
+    def __init__(self, thingId, key, pc_keyword, device_keyword, port, mode):
         self.thingId = thingId
         self.key = key
         self.port = port
         self.mode = mode
         self.session = requests.Session()
         self.serial_port = serial.Serial(port)
-        if mode == 'DTE':          # in DTE (pc) mode look for dweets in the device buffer, write dweets to the PC buffer
-            self.thisBuffer = pcBuffer
-            self.thatBuffer = deviceBuffer
+        if mode == 'DTE':          # in DTE (pc) mode look for dweets under the device keyword, write dweets under the PC keyword
+            self.fromThisDevice = pc_keyword
+            self.fromThatDevice = device_keyword
         
-        elif mode == 'DCE':        # in DCE (device) mode look for dweets in the PC buffer, write dweets to the device buffer
-            self.thisBuffer = deviceBuffer
-            self.thatBuffer = pcBuffer
+        elif mode == 'DCE':        # in DCE (device) mode look for dweets under the PC keyword, write dweets under the device keyword
+            self.fromThisDevice = device_keyword
+            self.fromThatDevice = pc_keyword
         
     @classmethod
     def from_config_file(cls, configFile, port, mode):
@@ -35,8 +38,8 @@ class DweetSession(object):
             thingKey = None
         
         # get some defaults out of the config file
-        defaultPcBuffer = cfg.get("defaults", "pc_buffer")
-        defaultDevBuffer = cfg.get("defaults", "device_buffer")
+        default_pc_keyword = cfg.get("defaults", "pc_buffer")
+        default_device_buffer = cfg.get("defaults", "device_buffer")
         
         if port is None:
             if mode == 'DTE':
@@ -44,7 +47,7 @@ class DweetSession(object):
             if mode == 'DCE':
                 port = cfg.get("defaults", "DCE_port")
         
-        return cls(thingId, thingKey, defaultPcBuffer, defaultDevBuffer, port, mode)
+        return cls(thingId, thingKey, default_pc_keyword, default_device_buffer, port, mode)
         
     def restart_session(self):
         ''' starts a new requests session
