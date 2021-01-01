@@ -9,7 +9,7 @@ dweet2ser works for connecting remotely to things like weather stations, sensors
 
 ## Installation
 ### Python environment
-This package is not yet published on PyPI, but you can use pip to install the github repository.
+This package is not yet published on PyPI, but you can use pip to install the github repository:
   
 `pip install git+https://github.com/zhenry9/dweet2ser.git#egg=dweet2ser`
   
