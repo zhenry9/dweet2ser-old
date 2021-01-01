@@ -17,8 +17,7 @@ from dweet2ser import connections
 
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.txt')
             
-def main():
-    
+def main(): 
     # start parsing CL arguments
     parser = argparse.ArgumentParser(description = "An interface for connecting an RS232 port to dweet.io.")
     parser.add_argument('--port', '-p', type=str, help='Manually specify port you are connecting to, overriding default e.g. COM7 or /dev/tty0')
