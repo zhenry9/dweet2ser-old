@@ -63,6 +63,12 @@ class DweetSession(object):
             print("Trying again...")
             time.sleep(2)
             return self.send_dweet(content)
+            
+        except requests.exceptions.ConnectionError as e:
+            print(e.response)
+            print("Connection closed by dweet, restarting:")
+            self.restart_session()
+            return self.send_dweet(content)
     
     def listen_for_dweets(self):
         ''' makes a call to dweepy to start a listening stream. error handling needs work
