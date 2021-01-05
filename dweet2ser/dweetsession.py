@@ -66,7 +66,7 @@ class DweetSession(object):
             time.sleep(2)
             return self.send_dweet(content)
             
-        except (requests.exceptions.ConnectionError, urllib3.exceptions.ProtocolError, WindowsError) as e:
+        except (ConnectionError, ProtocolError, WindowsError) as e:
             print(e.response)
             timestamp = str(datetime.datetime.now())
             print(timestamp + ":\tConnection closed by dweet, restarting:")
@@ -81,7 +81,7 @@ class DweetSession(object):
                 yield dweet
                 
         # if you get an error because dweet closed the connection, open it again.
-        except (requests.exceptions.ConnectionError, urllib3.exceptions.ProtocolError, WindowsError) as e:
+        except (ConnectionError, ProtocolError, WindowsError) as e:
             print(e.response)
             timestamp = str(datetime.datetime.now())
             print(timestamp + ":\tConnection closed by dweet, restarting:")
