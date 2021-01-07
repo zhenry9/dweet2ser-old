@@ -1,7 +1,7 @@
 
 [defaults]
 DTE_port = COM50
-DCE_port = COM21
+DCE_port = /dev/ttyUSB0
 pc_buffer = from_PC
 device_buffer = from_device
 
