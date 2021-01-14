@@ -1,6 +1,7 @@
 
 # standard imports
 import time
+import datetime
 from configparser import ConfigParser
 
 # 3rd party imports
@@ -60,13 +61,15 @@ class DweetSession(object):
         
         except dweepy.DweepyError as e:
             print(e)
-            print("Trying again...")
+            timestamp = str(datetime.datetime.now())
+            print(timestamp + ":\tTrying again...")
             time.sleep(2)
             return self.send_dweet(content)
             
-        except requests.exceptions.ConnectionError as e:
+        except (ConnectionError, ProtocolError, WindowsError) as e:
             print(e.response)
-            print("Connection closed by dweet, restarting:")
+            timestamp = str(datetime.datetime.now())
+            print(timestamp + ":\tConnection closed by dweet, restarting:")
             self.restart_session()
             return self.send_dweet(content)
     
@@ -78,9 +81,10 @@ class DweetSession(object):
                 yield dweet
                 
         # if you get an error because dweet closed the connection, open it again.
-        except requests.exceptions.ConnectionError as e:
+        except (ConnectionError, ProtocolError, WindowsError) as e:
             print(e.response)
-            print("Connection closed by dweet, restarting:")
+            timestamp = str(datetime.datetime.now())
+            print(timestamp + ":\tConnection closed by dweet, restarting:")
             self.restart_session()
             return self.listen_for_dweets()
         
