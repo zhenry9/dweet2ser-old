@@ -52,8 +52,7 @@ def main():
     t1.start()  # start listen to serial thread
     t2.start()  # start listen to dweet thread
 
-    while True:  # infinite loop to keep script alive
-        pass
+    input("Press enter to exit\n")
 
 
 if __name__ == "__main__":

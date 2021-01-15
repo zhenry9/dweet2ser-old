@@ -80,17 +80,27 @@ class DweetSession(object):
     def listen_for_dweets(self):
         """ makes a call to dweepy to start a listening stream. error handling needs work
         """
-        try:
-            for dweet in dweepy.listen_for_dweets_from(self.thingId, key=self.key, timeout=90000, session=self.session):
-                yield dweet
+        def catch_closed_connection():
+            while True:
+                try:
+                    for dweet in dweepy.listen_for_dweets_from(self.thingId, key=self.key, timeout=90000, session=self.session):
+                        yield dweet
 
-        # if you get an error because dweet closed the connection, open it again.
-        except (ConnectionError, ProtocolError, WindowsError) as e:
-            print(e.response)
-            timestamp = str(datetime.datetime.now())
-            print(timestamp + ":\tConnection closed by dweet, restarting:")
-            self.restart_session()
-            return self.listen_for_dweets()
+                # if you get an error because dweet closed the connection, open it again.
+                except (ConnectionError, ProtocolError, WindowsError) as e:
+                    print(e.response)
+                    timestamp = str(datetime.datetime.now())
+                    print(timestamp + ":\tConnection closed by dweet, restarting:")
+                    self.restart_session()
+                    yield dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
+
+                else:
+                    timestamp = str(datetime.datetime.now())
+                    print(timestamp + ":\tDweet listening thread died, restarting:")
+                    self.restart_session()
+                    yield dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
+
+        return catch_closed_connection()
 
     def keepalive(self):
         """ dweet.io seems to close the connection after 60 seconds of inactivity.
