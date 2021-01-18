@@ -1,7 +1,12 @@
 # standard imports
 import datetime
+import queue
+import threading
+import time
 
 # 3rd party imports
+
+
 from colorama import init
 from termcolor import colored
 
@@ -9,12 +14,7 @@ from termcolor import colored
 init()
 
 
-def listen_to_dweet(dweet_sesh):
-    """listens for dweets for the given ID and writes to the given serial port.
-       CP 545 data is expected as b'TN_0000_0000_01_12:34:56.7890_01234\x09\xDE\xCA\x0D\x0A'
-    """
-    ser = dweet_sesh.serial_port
-    target = dweet_sesh.fromThatDevice
+def _listen(dweet_sesh, target, ser):
     for dweet in dweet_sesh.listen_for_dweets():
         content = dweet["content"]
 
@@ -31,11 +31,37 @@ def listen_to_dweet(dweet_sesh):
             print("\t\t\t\twritten to " + colored("serial\n", "red"))
 
 
-def listen_to_serial(dweet_sesh):
+def listen_to_dweet(dweet_sesh, bucket):
+    """
+    Starts listening for dweets. Watches the bucket and restarts the thread if a crash message is received.
+    """
+    # TODO: this seems pretty ugly. Figure out why stream crashes silently and find a better fix
+    ser = dweet_sesh.serial_port
+    target = dweet_sesh.fromThatDevice
+
+    t = threading.Thread(target=_listen, args=[dweet_sesh, target, ser])
+    t.daemon = True
+    t.start()
+    while True:
+        try:
+            if bucket.get(block=False) == 'crash':
+                timestamp = str(datetime.datetime.now())
+                print(timestamp + ":\tListen thread crashed, restarting.")
+                t = threading.Thread(target=_listen, args=[dweet_sesh, target, ser])
+                t.daemon = True
+                t.start()
+        except queue.Empty:
+            time.sleep(.01)
+            pass
+
+
+def listen_to_serial(dweet_sesh, bucket):
     """listens to serial port, if it hears something it dweets it
     """
     ser = dweet_sesh.serial_port
     target = dweet_sesh.fromThisDevice
+    # TODO: find a way to listen to serial without an infinite loop
+    # TODO: verify readline() will work with data other than CP540
     while True:
         if ser.in_waiting > 0:
             ser_data = ser.readline()
@@ -43,4 +69,4 @@ def listen_to_serial(dweet_sesh):
             print(timestamp + ":\treceived " + colored("serial data", "red"))
             print("\t\t\t\t " + ser_data.strip().decode('latin-1'))
             print("\t\t\t\tsent to  " + colored("dweet.io\n", "cyan"))
-            dweet_sesh.send_dweet({target: ser_data.hex()})
+            dweet_sesh.send_dweet({target: ser_data.hex()}, bucket)

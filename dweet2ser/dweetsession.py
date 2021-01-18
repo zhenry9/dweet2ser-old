@@ -59,7 +59,7 @@ class DweetSession(object):
         """
         self.session = requests.Session()
 
-    def send_dweet(self, content):
+    def send_dweet(self, content, bucket):
         try:
             dweepy.dweet_for(self.thingId, content, key=self.key, session=self.session)
 
@@ -68,14 +68,15 @@ class DweetSession(object):
             timestamp = str(datetime.datetime.now())
             print(timestamp + ":\tTrying again...")
             time.sleep(2)
-            return self.send_dweet(content)
+            return self.send_dweet(content, bucket)
 
         except (ConnectionError, ProtocolError, WindowsError) as e:
             print(e.response)
             timestamp = str(datetime.datetime.now())
-            print(timestamp + ":\tConnection closed by dweet, restarting:")
+            print(timestamp + ":\tConnection closed by dweet, restarting (from send dweet):")
+            bucket.put('crash', block=False)
             self.restart_session()
-            return self.send_dweet(content)
+            return self.send_dweet(content, bucket)
 
     def listen_for_dweets(self):
         """ makes a call to dweepy to start a listening stream. error handling needs work
@@ -83,14 +84,15 @@ class DweetSession(object):
         def catch_closed_connection():
             while True:
                 try:
-                    for dweet in dweepy.listen_for_dweets_from(self.thingId, key=self.key, timeout=90000, session=self.session):
+                    for dweet in dweepy.listen_for_dweets_from(self.thingId, key=self.key,
+                                                               timeout=90000, session=self.session):
                         yield dweet
 
                 # if you get an error because dweet closed the connection, open it again.
                 except (ConnectionError, ProtocolError, WindowsError) as e:
                     print(e.response)
                     timestamp = str(datetime.datetime.now())
-                    print(timestamp + ":\tConnection closed by dweet, restarting:")
+                    print(timestamp + ":\tConnection closed by dweet, restarting (from listen):")
                     self.restart_session()
                     yield dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
 
@@ -102,10 +104,10 @@ class DweetSession(object):
 
         return catch_closed_connection()
 
-    def keepalive(self):
+    def keepalive(self, bucket):
         """ dweet.io seems to close the connection after 60 seconds of inactivity.
             This sends a dummy payload every 45s to avoid that.
         """
         while True:
             time.sleep(45)
-            self.send_dweet({"keepalive": 1})
+            self.send_dweet({"keepalive": 1}, bucket)

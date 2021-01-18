@@ -24,19 +24,20 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
     ],
-	install_requires=[
-		# 'dweepy'  # main branch has error with long dweets, linking to my own forked version below for now
-		'requests >= 2, < 3',
-		'pySerial',
-		'colorama',
-		'termcolor',
-        'dweepy @ https://github.com/zhenry9/dweepy/archive/master.tar.gz', # my patched version of dweepy
-	],
+    install_requires=[
+        'dweepy'  
+        'requests >= 2, < 3',
+        'pySerial',
+        'colorama',
+        'termcolor',
+        # my patched dweepy repo, no longer needed
+        # 'dweepy @ https://github.com/zhenry9/dweepy/archive/master.tar.gz',
+    ],
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
             'dweet2ser = dweet2ser.__main__:main'
         ]
     },
-	zip_safe=False,
+    zip_safe=False,
 )
