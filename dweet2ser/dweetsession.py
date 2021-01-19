@@ -109,6 +109,14 @@ class DweetSession(object):
     def get_latest_dweet(self):
         return dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
 
+    def print_info(self):
+        print(f"Thing name: {self.thingId}\n"
+              f"Key used: {self.key is not None}\n"
+              f"Reading from keyword: {self.fromThatDevice}\n"
+              f"Writing to keyword: {self.fromThisDevice}\n"
+              f"Using serial port: {self.port}"
+              )
+
     def _dweet_stream(self):
         """ makes a call to dweepy to start a listening stream. error handling needs work
         """
@@ -132,7 +140,7 @@ class DweetSession(object):
                     timestamp = str(datetime.datetime.now())
                     print(timestamp + ":\tDweet listening thread died, restarting:")
                     self.restart_session()
-                    yield dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
+                    yield self.get_latest_dweet()
 
         return catch_closed_connection()
 
@@ -156,7 +164,7 @@ class DweetSession(object):
         print("\t\t\t\t" + output_text)
         print("\t\t\t\twritten to " + colored("serial\n", "red"))
 
-    def _write_last_dweet(self):
+    def write_last_dweet_to_serial(self):
         target = self.fromThatDevice
         dweet = self.get_latest_dweet()
         content = dweet[0]["content"]
@@ -179,7 +187,7 @@ class DweetSession(object):
                     timestamp = str(datetime.datetime.now())
                     print(timestamp + ":\tListen thread crashed, restarting.")
                     # retrieve the last dweet and send to serial, in case it was missed during crash
-                    self._write_last_dweet()
+                    self.write_last_dweet_to_serial()
                     # kill any listen threads that are still alive and not crashed
                     self._kill_listen_streams()
                     time.sleep(.01)

@@ -26,10 +26,11 @@ def setup():
     CONFIGURATION.setup()
 
 
-def process_input(cmd):
+def process_input(cmd, dweet_sesh):
     if cmd == "RESTART" or cmd == "restart":
         return bucket.put('crash', block=False)
     if cmd == "path":
+        print(f"Default config file: {CONFIGURATION.default_config_file}")
         path = CFG.get('User', 'user_config_file')
         if path == '':
             print("User config file not found. Use 'setup' to create. Using defaults.")
@@ -37,12 +38,20 @@ def process_input(cmd):
             print(f"Path to config file: {path}")
         return
     if cmd == "setup":
-        return CONFIGURATION.setup()
+        CONFIGURATION.setup()
+        return print("RESTART REQUIRED")
+    if cmd == "info":
+        return dweet_sesh.print_info()
+    if cmd == "get":
+        return dweet_sesh.write_last_dweet_to_serial()
     else:
         # print command help
-        print("Type 'setup' to run the configuration setup.\n"
+        print("Type 'info' to display session info.\n"
+              "Type 'get' to write the last message to serial, if it's available.\n"
               "Type 'restart' to restart the listen thread.\n"
-              "Type 'path' to display path to config file.")
+              "Type 'path' to display paths to config files.\n"
+              "Type 'setup' to run the configuration setup."
+              )
         return
 
 
@@ -70,10 +79,10 @@ def main():
     print("\t\t*************************************************")
 
     while True:
-        cmd = input("Type 'exit' to exit or ENTER for help.\n")
+        cmd = input("\nType 'exit' to exit or ENTER for help.\n")
         if cmd == 'exit':
             break
-        process_input(cmd)
+        process_input(cmd, dweet_sesh)
 
 
 if __name__ == "__main__":
