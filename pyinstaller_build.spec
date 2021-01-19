@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['dweet2ser'],
+a = Analysis(['dweet2ser/__main__.py'],
              pathex=['C:\\Users\\Z\\PycharmProjects\\dweet2ser'],
              binaries=[],
              datas=[],

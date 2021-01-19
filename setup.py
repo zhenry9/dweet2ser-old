@@ -25,7 +25,7 @@ setuptools.setup(
         'Natural Language :: English',
     ],
     install_requires=[
-        'dweepy',  
+        # 'dweepy',  packaging modified dweepy source with dweet2ser for now
         'requests >= 2, < 3',
         'pySerial',
         'colorama',

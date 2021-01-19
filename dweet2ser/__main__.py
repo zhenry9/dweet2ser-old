@@ -1,18 +1,15 @@
 
-# local imports
-import queue
 
-from . import setup_config
-from . import dweetsession
-
-# standard imports
-import sys
 import argparse
-
+import queue
+import sys
 
 # 3rd party imports
 from colorama import init
 from termcolor import colored
+
+from dweet2ser import dweetsession
+from dweet2ser import setup_config
 
 # colorama call
 init()
