@@ -45,21 +45,26 @@ class DweetSession(object):
         cfg = ConfigParser()
         cfg.read(config_file)
 
-        # get thing ID from config file 
-        thing_id = cfg.get("thing", "id")
-        thing_key = cfg.get("thing", "key")
+        return cls.from_config_parser(cfg, port, mode, bucket)
+
+    @classmethod
+    def from_config_parser(cls, cfg, port, mode, bucket):
+
+        # get thing ID from config file
+        thing_id = cfg.get("User", "thing_id")
+        thing_key = cfg.get("User", "key")
         if thing_key == 'None' or thing_key == '':
             thing_key = None
 
         # get some defaults out of the config file
-        default_pc_keyword = cfg.get("defaults", "pc_buffer")
-        default_device_buffer = cfg.get("defaults", "device_buffer")
+        default_pc_keyword = cfg.get("User", "pc_keyword")
+        default_device_buffer = cfg.get("User", "device_keyword")
 
         if port is None:
             if mode == 'DTE':
-                port = cfg.get("defaults", "DTE_port")
+                port = cfg.get("User", "DTE_port")
             if mode == 'DCE':
-                port = cfg.get("defaults", "DCE_port")
+                port = cfg.get("User", "DCE_port")
 
         return cls(thing_id, thing_key, default_pc_keyword, default_device_buffer, port, mode, bucket)
 

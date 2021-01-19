@@ -36,7 +36,8 @@ setuptools.setup(
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'dweet2ser = dweet2ser.__main__:main'
+            'dweet2ser = dweet2ser.__main__:main',
+            'dweet2ser-setup = setup_config.setup:main'
         ]
     },
     zip_safe=False,

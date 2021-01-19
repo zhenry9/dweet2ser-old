@@ -2,10 +2,10 @@
 # local imports
 import queue
 
+from . import setup_config
 from . import dweetsession
 
 # standard imports
-import os
 import sys
 import argparse
 
@@ -17,7 +17,7 @@ from termcolor import colored
 # colorama call
 init()
 
-CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.txt')
+CFG = setup_config.DweetConfiguration().parser
 bucket = queue.Queue()
 
 
@@ -25,7 +25,7 @@ def process_input(cmd):
     if cmd == "RESTART" or cmd == "restart":
         return bucket.put('crash', block=False)
     if cmd == "path":
-        print(f"Path to config file: {CONFIG_FILE}")
+        print(f"Path to config file: {CFG.get('User', 'user_config_file')}")
         return
     else:
         # print command help
@@ -44,7 +44,7 @@ def main():
                         default='DTE')
 
     args = parser.parse_args()
-    dweet_sesh = dweetsession.DweetSession.from_config_file(CONFIG_FILE, args.port, args.mode, bucket)
+    dweet_sesh = dweetsession.DweetSession.from_config_parser(CFG, args.port, args.mode, bucket)
 
     dweet_sesh.start()
 
