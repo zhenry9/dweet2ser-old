@@ -112,5 +112,5 @@ class DweetConfiguration(object):
         with open(path, 'w') as configfile:
             self.parser.write(configfile)
 
-        print(f"User config file created successfully at {path}")
+        print(f"User config file successfully written to: {path}")
         return self._update_parser()

@@ -32,11 +32,12 @@ def process_input(cmd):
     if cmd == "path":
         path = CFG.get('User', 'user_config_file')
         if path == '':
-            path = "User config file not found. Use setup to create. Using defaults."
-        print(f"Path to config file: {path}")
+            print("User config file not found. Use 'setup' to create. Using defaults.")
+        else:
+            print(f"Path to config file: {path}")
         return
     if cmd == "setup":
-        CONFIGURATION.setup()
+        return CONFIGURATION.setup()
     else:
         # print command help
         print("Type 'setup' to run the configuration setup.\n"
@@ -59,7 +60,7 @@ def main():
 
     dweet_sesh.start()
 
-    print(colored("\n\t\t" + sys.argv[0] +
+    print(colored("\n" + sys.argv[0] +
                   " running on port: " + dweet_sesh.port +
                   " in " + dweet_sesh.mode + " mode.\n", "red"))
 
