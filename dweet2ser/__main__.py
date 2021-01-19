@@ -17,19 +17,30 @@ from termcolor import colored
 # colorama call
 init()
 
-CFG = setup_config.DweetConfiguration().parser
+CONFIGURATION = setup_config.DweetConfiguration()
+CFG = CONFIGURATION.parser
 bucket = queue.Queue()
+
+
+def setup():
+    CONFIGURATION.setup()
 
 
 def process_input(cmd):
     if cmd == "RESTART" or cmd == "restart":
         return bucket.put('crash', block=False)
     if cmd == "path":
-        print(f"Path to config file: {CFG.get('User', 'user_config_file')}")
+        path = CFG.get('User', 'user_config_file')
+        if path == '':
+            path = "User config file not found. Use setup to create. Using defaults."
+        print(f"Path to config file: {path}")
         return
+    if cmd == "setup":
+        CONFIGURATION.setup()
     else:
         # print command help
-        print("Type 'RESTART' to restart the listen thread.\n"
+        print("Type 'setup' to run the configuration setup.\n"
+              "Type 'restart' to restart the listen thread.\n"
               "Type 'path' to display path to config file.")
         return
 
