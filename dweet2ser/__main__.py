@@ -3,12 +3,12 @@
 import queue
 
 from . import dweetsession
-from . import connections
+
 # standard imports
 import os
 import sys
 import argparse
-import threading
+
 
 # 3rd party imports
 from colorama import init
@@ -44,18 +44,9 @@ def main():
                         default='DTE')
 
     args = parser.parse_args()
-    dweet_sesh = dweetsession.DweetSession.from_config_file(CONFIG_FILE, args.port, args.mode)
+    dweet_sesh = dweetsession.DweetSession.from_config_file(CONFIG_FILE, args.port, args.mode, bucket)
 
-    # thread to send a dummy dweet every 45 seconds to keep the connection alive
-    t0 = threading.Thread(target=dweet_sesh.keepalive, args=[bucket])
-    # thread to monitor the serial port for data
-    t1 = threading.Thread(target=connections.listen_to_serial, args=[dweet_sesh, bucket])
-    # thread to listen for incoming dweets
-    t2 = threading.Thread(target=connections.listen_to_dweet, args=[dweet_sesh, bucket])
-
-    t0.daemon = True
-    t1.daemon = True
-    t2.daemon = True
+    dweet_sesh.start()
 
     print(colored("\n\t\t" + sys.argv[0] +
                   " running on port: " + dweet_sesh.port +
@@ -65,10 +56,6 @@ def main():
     print("\t\t**               " + colored("Dweet", "cyan") + " to " + colored("Serial", "red") + "               **")
     print("\t\t**                by Zach Henry                **")
     print("\t\t*************************************************")
-
-    t0.start()  # start the keepalive thread
-    t1.start()  # start listen to serial thread
-    t2.start()  # start listen to dweet thread
 
     while True:
         cmd = input("Type 'exit' to exit or ENTER for help.\n")
