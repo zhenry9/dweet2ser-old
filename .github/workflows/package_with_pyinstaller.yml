@@ -22,4 +22,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: dweet2ser
-        path: dist/windows
+        path: dist/windows/__main__.exe
