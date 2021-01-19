@@ -37,7 +37,7 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'dweet2ser = dweet2ser.__main__:main',
-            'dweet2ser-setup = dweet2ser.setup:main'
+            'dweet2ser-setup = dweet2ser.setup_config:setup'
         ]
     },
     zip_safe=False,
