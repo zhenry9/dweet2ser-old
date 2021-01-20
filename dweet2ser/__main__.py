@@ -27,12 +27,12 @@ def process_input(cmd, dweet_sesh):
     if cmd == "RESTART" or cmd == "restart":
         return bucket.put('crash', block=False)
     if cmd == "path":
-        print(f"Default config file: {CONFIGURATION.default_config_file}")
+        print(f"\tDefault config file: {CONFIGURATION.default_config_file}")
         path = CFG.get('User', 'user_config_file')
         if path == '':
             print("\tUser config file not found. Use 'setup' to create. Using defaults.")
         else:
-            print(f"\tPath to config file: {path}")
+            print(f"\tPath to user config file: {path}")
         return
     if cmd == "setup":
         CONFIGURATION.setup()
