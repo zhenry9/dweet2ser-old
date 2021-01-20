@@ -30,9 +30,9 @@ def process_input(cmd, dweet_sesh):
         print(f"Default config file: {CONFIGURATION.default_config_file}")
         path = CFG.get('User', 'user_config_file')
         if path == '':
-            print("User config file not found. Use 'setup' to create. Using defaults.")
+            print("\tUser config file not found. Use 'setup' to create. Using defaults.")
         else:
-            print(f"Path to config file: {path}")
+            print(f"\tPath to config file: {path}")
         return
     if cmd == "setup":
         CONFIGURATION.setup()

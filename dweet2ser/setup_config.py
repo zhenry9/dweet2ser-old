@@ -26,10 +26,10 @@ class DweetConfiguration(object):
 
     def _verify_defaults(self):
         if not os.path.exists(self.default_config_file):
-            print(f"Default file not found. Creating at {self.default_config_file}")
+            print(f"\nDefault file not found. Creating at {self.default_config_file}")
             self._write_defaults()
         else:
-            print(f"Default config file exists at {self.default_config_file}")
+            print(f"\nDefault config file found at {self.default_config_file}")
         return
 
     def _write_defaults(self):
@@ -68,8 +68,8 @@ class DweetConfiguration(object):
 
     def _create_user_file(self, path):
 
-        print(f"\nWriting user config file to: {path}\n"
-              f"Hit enter to accept default.")
+        print(f"Writing user config file to: {path}\n"
+              f"\nHit enter to accept defaults.")
         keys = ["thing_id",
                 "key",
                 "DCE_port",
@@ -89,16 +89,16 @@ class DweetConfiguration(object):
                 currents[keys[i]] = ''
 
         inputs = {
-            'thing_id': input(f"Enter thing name (default:{defaults['thing_id']}, current:{currents['thing_id']}):"),
-            'key': input(f"Enter thing key if locked (default:{defaults['key']}, current:{currents['key']}):"),
+            'thing_id': input(f"\tEnter thing name (default:{defaults['thing_id']}, current:{currents['thing_id']}):"),
+            'key': input(f"\tEnter thing key if locked (default:{defaults['key']}, current:{currents['key']}):"),
             'DCE_port': input(
-                f"Enter default DCE serial port (default:{defaults['DCE_port']}, current:{currents['DCE_port']}):"),
+                f"\tEnter default DCE serial port (default:{defaults['DCE_port']}, current:{currents['DCE_port']}):"),
             'DTE_port': input(
-                f"Enter default DTE serial port (default:{defaults['DTE_port']}, current:{currents['DTE_port']}):"),
+                f"\tEnter default DTE serial port (default:{defaults['DTE_port']}, current:{currents['DTE_port']}):"),
             'pc_keyword': input(
-                f"Enter PC keyword (default:{defaults['pc_keyword']}, current:{currents['pc_keyword']}):"),
+                f"\tEnter PC keyword (default:{defaults['pc_keyword']}, current:{currents['pc_keyword']}):"),
             'device_keyword': input(
-                f"Enter device keyword (default:{defaults['device_keyword']}, current:{currents['device_keyword']}):")}
+                f"\tEnter device keyword (default:{defaults['device_keyword']}, current:{currents['device_keyword']}):")}
 
         self._write_user_file_path(path)
         self.parser = ConfigParser()
