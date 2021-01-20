@@ -43,11 +43,11 @@ def process_input(cmd, dweet_sesh):
         return dweet_sesh.write_last_dweet_to_serial()
     else:
         # print command help
-        print("Type 'info' to display session info.\n"
-              "Type 'get' to write the last message to serial, if it's available.\n"
-              "Type 'restart' to restart the listen thread.\n"
-              "Type 'path' to display paths to config files.\n"
-              "Type 'setup' to run the configuration setup."
+        print("\tType 'info' to display session info.\n"
+              "\tType 'get' to write the last message to serial, if it's available.\n"
+              "\tType 'restart' to restart the listen thread.\n"
+              "\tType 'path' to display paths to config files.\n"
+              "\tType 'setup' to run the configuration setup."
               )
         return
 

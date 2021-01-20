@@ -104,9 +104,9 @@ class DweetConfiguration(object):
         self.parser = ConfigParser()
         self.parser.add_section("User")
 
-        for i in range(0, len(keys)):
-            if inputs[keys[i]] != '':
-                self.parser["User"][keys[i]] = inputs[keys[i]]
+        for key in keys:
+            if inputs[key] != '':
+                self.parser["User"][key] = inputs[key]
 
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'w') as configfile:

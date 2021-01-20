@@ -69,9 +69,11 @@ class DweetSession(object):
         return cls(thing_id, thing_key, default_pc_keyword, default_device_buffer, port, mode, bucket)
 
     def start(self):
-        threads = [threading.Thread(target=self._keepalive),
-                   threading.Thread(target=self._listen_to_serial),
+        threads = [threading.Thread(target=self._listen_to_serial),
                    threading.Thread(target=self._listen_to_dweet)]
+
+        if self.mode == "DTE":
+            threads.append(threading.Thread(target=self._keepalive))
 
         for thread in threads:
             thread.daemon = True
@@ -110,11 +112,11 @@ class DweetSession(object):
         return dweepy.get_latest_dweet_for(self.thingId, key=self.key, session=self.session)
 
     def print_info(self):
-        print(f"Thing name: {self.thingId}\n"
-              f"Key used: {self.key is not None}\n"
-              f"Reading from keyword: {self.fromThatDevice}\n"
-              f"Writing to keyword: {self.fromThisDevice}\n"
-              f"Using serial port: {self.port}"
+        print(f"\tThing name: {self.thingId}\n"
+              f"\tKey used: {self.key is not None}\n"
+              f"\tReading from keyword: {self.fromThatDevice}\n"
+              f"\tWriting to keyword: {self.fromThisDevice}\n"
+              f"\tUsing serial port: {self.port}"
               )
 
     def _dweet_stream(self):
