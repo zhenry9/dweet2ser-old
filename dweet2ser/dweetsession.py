@@ -6,7 +6,7 @@ import time
 from configparser import ConfigParser
 
 # 3rd party imports
-import dweepy
+from dweet2ser import dweepy
 import requests
 import serial
 from colorama import init
