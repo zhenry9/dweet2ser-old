@@ -56,7 +56,7 @@ class DweetConfiguration(object):
     def _verify_user_file(self):
         if os.path.exists(self.user_config_file):
             print(f"User config file found at {self.user_config_file}")
-            resp = input("Overwrite? (y/n)")
+            resp = input("  Overwrite? (y/n):")
             if resp == "n":
                 return
             else:
@@ -89,16 +89,16 @@ class DweetConfiguration(object):
                 currents[keys[i]] = ''
 
         inputs = {
-            'thing_id': input(f"\tEnter thing name (default:{defaults['thing_id']}, current:{currents['thing_id']}):"),
-            'key': input(f"\tEnter thing key if locked (default:{defaults['key']}, current:{currents['key']}):"),
+            'thing_id': input(f"  Enter thing name (default:{defaults['thing_id']}, current:{currents['thing_id']}):  "),
+            'key': input(f"  Enter thing key if locked (default:{defaults['key']}, current:{currents['key']}):  "),
             'DCE_port': input(
-                f"\tEnter default DCE serial port (default:{defaults['DCE_port']}, current:{currents['DCE_port']}):"),
+                f"  Enter default DCE serial port (default:{defaults['DCE_port']}, current:{currents['DCE_port']}):  "),
             'DTE_port': input(
-                f"\tEnter default DTE serial port (default:{defaults['DTE_port']}, current:{currents['DTE_port']}):"),
+                f"  Enter default DTE serial port (default:{defaults['DTE_port']}, current:{currents['DTE_port']}):  "),
             'pc_keyword': input(
-                f"\tEnter PC keyword (default:{defaults['pc_keyword']}, current:{currents['pc_keyword']}):"),
+                f"  Enter PC keyword (default:{defaults['pc_keyword']}, current:{currents['pc_keyword']}):  "),
             'device_keyword': input(
-                f"\tEnter device keyword (default:{defaults['device_keyword']}, current:{currents['device_keyword']}):")}
+                f"  Enter device keyword (default:{defaults['device_keyword']}, current:{currents['device_keyword']})  :")}
 
         self._write_user_file_path(path)
         self.parser = ConfigParser()
@@ -112,5 +112,5 @@ class DweetConfiguration(object):
         with open(path, 'w') as configfile:
             self.parser.write(configfile)
 
-        print(f"User config file successfully written to: {path}")
+        print(f"\nUser config file successfully written to: {path}")
         return self._update_parser()
