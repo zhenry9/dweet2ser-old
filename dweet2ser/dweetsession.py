@@ -85,7 +85,7 @@ class DweetSession(object):
         self.session = requests.Session()
 
     def _kill_listen_streams(self):
-        self.send_dweet({self.kill_signal: 1})
+        self.send_dweet({self.fromThatDevice: "kill"})
 
     def send_dweet(self, content):
         try:
@@ -148,9 +148,9 @@ class DweetSession(object):
         target = self.fromThatDevice
         for dweet in self._dweet_stream():
             content = dweet["content"]
-            if self.kill_signal in content:
-                return
             if target in content:
+                if content[target] == self.kill_signal:
+                    return
                 self._write_to_serial(content[target])
 
     def _write_to_serial(self, output):
