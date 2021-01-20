@@ -1,10 +1,10 @@
-
-
 import argparse
 import queue
 import sys
 
 # 3rd party imports
+import time
+
 from colorama import init
 from termcolor import colored
 
@@ -52,6 +52,11 @@ def process_input(cmd, dweet_sesh):
         return
 
 
+def idle():
+    while True:
+        time.sleep(1)
+
+
 def main():
     # start parsing CL arguments
     parser = argparse.ArgumentParser(description="An interface for connecting an RS232 port to dweet.io.")
@@ -76,7 +81,11 @@ def main():
     print("\t\t*************************************************")
 
     while True:
-        cmd = input("\nType 'exit' to exit or ENTER for help.\n")
+        cmd = ''
+        try:
+            cmd = input("\nType 'exit' to exit or ENTER for help.\n")
+        except EOFError:  # if ran as a daemon, make sure we don't reach EOF prematurely
+            idle()
         if cmd == 'exit':
             break
         process_input(cmd, dweet_sesh)
